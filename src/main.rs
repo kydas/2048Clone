@@ -1,3 +1,14 @@
+//use std::env;
+
+
 fn main() {
-    println!("This will be a 2048 clone!");
+    //let mut args = env::args();
+    let s = String::from("\n
+                          | 2 |   |   |   |   |\n
+                          |   |   |   |   |   |\n
+                          |   |   |   |   |   |\n
+                          |   |   |   |   |   |\n
+                          |   |   |   |   |   |\n");
+
+    println!("{}", s);
 }
