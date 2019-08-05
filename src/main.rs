@@ -12,3 +12,25 @@ fn main() {
 
     println!("{}", s);
 }
+
+struct Position {
+    x: u32,
+    y: u32,
+}
+struct Tile {
+    pos: Position,
+    val: Option<u32>
+}
+
+struct Board {
+    grid: Vec<Vec<Tile>>,
+    score: Option<u32>,
+}
+
+impl Tile {
+    fn new<'a>(x: u32, y: u32) -> Self {
+        let pos = Position{x: x, y:y};
+        let tile = Tile{pos: pos, val: None};
+        tile
+    }
+}
