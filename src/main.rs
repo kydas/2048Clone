@@ -70,4 +70,14 @@ mod tile_tests {
         assert_eq!(8, test_tile1.val.unwrap());
         assert_eq!(None, test_tile2.val);
     }
+
+    #[test]
+    fn test_merge_none_some() {
+        let mut test_tile = Tile::new(0,1);
+        let mut test_tile2 = Tile::new(1,1);
+        test_tile2.set_val(8);
+        test_tile.merge(&mut test_tile2);
+        assert_eq!(8, test_tile.val.unwrap());
+        assert_eq!(None, test_tile2.val);
+    }
 }
