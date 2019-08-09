@@ -22,11 +22,6 @@ struct Tile {
     val: Option<u32>
 }
 
-struct Board {
-    grid: Vec<Vec<Tile>>,
-    score: Option<u32>,
-}
-
 impl Tile {
     fn new(x: u32, y: u32) -> Self {
         let pos = Position{x: x, y:y};
@@ -49,6 +44,29 @@ impl Tile {
         };
     }
 }
+
+struct Board{
+    grid: Vec<Vec<Tile>>,
+    score: Option<u32>,
+}
+
+impl Board {
+
+    fn initGrid(&mut self) -> Self{
+        let mut row: Vec<Vec<Tile>> = Vec::new();
+        for x in 0..5 {
+            let mut col: Vec<Tile> = Vec::new();
+            for y in 0..5 {
+                col.push(Tile::new(x, y));
+            }
+            row.push(col);
+        }
+        let board = Board{grid: row, score: None};
+        board
+    }
+}
+
+
 
 #[cfg(test)]
 mod tile_tests {
