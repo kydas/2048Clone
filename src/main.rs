@@ -68,7 +68,7 @@ struct Board{
 
 impl Board {
 
-    fn init_grid(&mut self) -> Self{
+    fn init_grid() -> Self{
         let mut row: Vec<Vec<Tile>> = Vec::new();
         for x in 0..5 {
             let mut col: Vec<Tile> = Vec::new();
@@ -139,5 +139,16 @@ mod tile_tests {
         test_tile.mov(&mut test_tile2);
         assert_eq!(None, test_tile2.val);
         assert_eq!(8, test_tile.val.unwrap()); 
+    }
+
+    mod board_tests {
+        use super::*;
+        #[test]
+        fn test_mov_left_one(){
+            let mut test_board = Board::init_grid();
+            test_board.grid[1][0].set_val(2);
+            test_board.mov_left();
+            assert_eq!(2, test_board.grid[0][0].val.unwrap());
+        }
     }
 }
