@@ -28,19 +28,29 @@ impl Tile {
         let tile = Tile{pos: pos, val: None};
         tile
     }
-    fn merge(&mut self, mTile: &mut Tile){
-        if self.val == mTile.val {
-            mTile.val = None;
+    fn merge(&mut self, m_tile: &mut Tile) {
+        if self.val == m_tile.val {
             match self.val {
-                None => self.val = mTile.val,
+                None => self.val = m_tile.val,
                 Some(i) => self.val = Some(i*2),
             };
+            m_tile.val = None;
         };
     }
     fn set_val(&mut self, value: u32){
         match self.val {
             None => self.val = Some(value),
-            Some(i) => self.val = Some(value),
+            Some(_i) => self.val = Some(value),
+        };
+    }
+
+    fn mov(&mut self, other: &mut Tile) {
+        match self.val {
+            None => {
+                self.val = other.val;
+                other.val = None;
+            },
+            Some(_i) => ()
         };
     }
 }
@@ -52,7 +62,7 @@ struct Board{
 
 impl Board {
 
-    fn initGrid(&mut self) -> Self{
+    fn init_grid(&mut self) -> Self{
         let mut row: Vec<Vec<Tile>> = Vec::new();
         for x in 0..5 {
             let mut col: Vec<Tile> = Vec::new();
@@ -63,6 +73,16 @@ impl Board {
         }
         let board = Board{grid: row, score: None};
         board
+    }
+
+    fn mov_left(&mut self) {
+        for x in 0..5 {
+            for y in 0..5{
+                if self.grid[x][y].val == None {
+                    self.grid[x][y].mov(&mut self.grid[x+1][y]);
+                }
+            }
+        }
     }
 }
 
@@ -95,7 +115,17 @@ mod tile_tests {
         let mut test_tile2 = Tile::new(1,1);
         test_tile2.set_val(8);
         test_tile.merge(&mut test_tile2);
-        assert_eq!(8, test_tile.val.unwrap());
+        assert_eq!(None, test_tile.val);
+        assert_eq!(8, test_tile2.val.unwrap());
+    }
+
+    #[test]
+    fn test_mov() {
+        let mut test_tile = Tile::new(0,1);
+        let mut test_tile2 = Tile::new(1,1);
+        test_tile2.set_val(8);
+        test_tile.mov(&mut test_tile2);
         assert_eq!(None, test_tile2.val);
+        assert_eq!(8, test_tile.val.unwrap()); 
     }
 }
