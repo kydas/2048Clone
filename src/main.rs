@@ -13,10 +13,13 @@ fn main() {
     println!("{}", s);
 }
 
+#[derive(Clone)]
 struct Position {
     x: u32,
     y: u32,
 }
+
+#[derive(Clone)]
 struct Tile {
     pos: Position,
     val: Option<u32>
@@ -28,6 +31,7 @@ impl Tile {
         let tile = Tile{pos: pos, val: None};
         tile
     }
+
     fn merge(&mut self, m_tile: &mut Tile) {
         if self.val == m_tile.val {
             match self.val {
@@ -55,6 +59,8 @@ impl Tile {
     }
 }
 
+
+#[derive(Clone)]
 struct Board{
     grid: Vec<Vec<Tile>>,
     score: Option<u32>,
@@ -76,10 +82,15 @@ impl Board {
     }
 
     fn mov_left(&mut self) {
-        for x in 0..5 {
-            for y in 0..5{
-                if self.grid[x][y].val == None {
-                    self.grid[x][y].mov(&mut self.grid[x+1][y]);
+        let grid = &mut self.grid;
+        for y in 0..5 {
+            for x in 0..5{
+                let curr = &mut grid[x][y].clone();
+                let next = &mut grid[x+1][y].clone();
+                if curr.val == None {
+                    curr.mov(next);
+                    grid[x][y] = *curr;
+                    grid[x+1][y] = *next;
                 }
             }
         }
