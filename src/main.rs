@@ -13,13 +13,13 @@ fn main() {
     println!("{}", s);
 }
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 struct Position {
     x: u32,
     y: u32,
 }
 
-#[derive(Clone)]
+#[derive(Clone, Copy)]
 struct Tile {
     pos: Position,
     val: Option<u32>
@@ -83,14 +83,15 @@ impl Board {
 
     fn mov_left(&mut self) {
         let grid = &mut self.grid;
-        for y in 0..5 {
-            for x in 0..5{
+        // 0 .. 4 because we don't want to go off end of array
+        for y in 0..4 {
+            for x in 0..4{
                 let curr = &mut grid[x][y].clone();
                 let next = &mut grid[x+1][y].clone();
                 if curr.val == None {
                     curr.mov(next);
-                    grid[x][y] = *curr;
-                    grid[x+1][y] = *next;
+                    grid[x][y] = curr.clone();
+                    grid[x+1][y] = next.clone();
                 }
             }
         }
