@@ -84,7 +84,7 @@ impl Board {
     fn mov_left(&mut self) {
         let grid = &mut self.grid;
         // 0 .. 4 because we don't want to go off end of array
-        for y in 0..4 {
+        for y in 0..5 {
             for x in 0..4{
                 let curr = &mut grid[x][y].clone();
                 let next = &mut grid[x+1][y].clone();
@@ -92,6 +92,22 @@ impl Board {
                     curr.mov(next);
                     grid[x][y] = curr.clone();
                     grid[x+1][y] = next.clone();
+                }
+            }
+        }
+    }
+
+    fn mov_right(&mut self) {
+        let grid = &mut self.grid;
+        // 5 .. 1  because we don't want to go off end of array
+        for y in 0..5 {
+            for x in 5..1{
+                let curr = &mut grid[x][y].clone();
+                let next = &mut grid[x-1][y].clone();
+                if curr.val == None {
+                    curr.mov(next);
+                    grid[x][y] = curr.clone();
+                    grid[x-1][y] = next.clone();
                 }
             }
         }
@@ -149,6 +165,14 @@ mod tile_tests {
             test_board.grid[1][0].set_val(2);
             test_board.mov_left();
             assert_eq!(2, test_board.grid[0][0].val.unwrap());
+        }
+
+        #[test]
+        fn test_mov_right_one(){
+            let mut test_board = Board::init_grid();
+            test_board.grid[1][0].set_val(2);
+            test_board.mov_right();
+            assert_eq!(2, test_board.grid[2][0].val.unwrap());
         }
     }
 }
