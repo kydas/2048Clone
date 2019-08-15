@@ -3,8 +3,8 @@
 pub mod tile;
 pub mod board;
 
-use crate::tile::Tile;
-use crate::board::Board;
+// use crate::tile;
+// use crate::board;
 
 fn main() {
     //let mut args = env::args();
