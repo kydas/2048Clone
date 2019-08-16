@@ -37,13 +37,17 @@ impl Tile {
     }
 
     pub fn mov(&mut self, other: &mut Tile) {
-        match self.val {
-            None => {
-                self.val = other.val;
-                other.val = None;
-            },
-            Some(_i) => ()
+        if let None = self.val {
+            self.val = other.val;
+            other.val = None;
         };
+        // match self.val {
+        //     None => {
+        //         self.val = other.val;
+        //         other.val = None;
+        //     },
+        //     Some(_i) => ()
+        // };
     }
 
     pub fn get_val(&mut self) -> Option<u32> {
