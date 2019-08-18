@@ -121,6 +121,20 @@ impl Board {
         }    
     }
 
+    fn merge_left(&mut self) {
+        self.mov_left();
+        let grid = &mut self.grid;
+        for y in 0 .. 4 {
+            for x in 0 .. 3 {
+                let curr = &mut grid[x][y].clone();
+                let next = &mut grid[x+1][y].clone();
+                curr.merge(next);
+            }
+        }
+        self.mov_left();
+
+    }
+
 }
 #[cfg(test)]
 mod board_tests {
@@ -223,5 +237,20 @@ mod board_tests {
         assert_eq!(2, test_board.grid[1][3].get_val().unwrap());
         assert_eq!(2, test_board.grid[1][2].get_val().unwrap());
         assert_eq!(2, test_board.grid[0][3].get_val().unwrap());
+    }
+
+
+    // MERGE TESTS 
+
+    #[test]
+    fn test_merge_left_simple() {
+        let mut test_board = Board::init_grid();
+        test_board.grid[3][0].set_val(2);
+        test_board.grid[2][0].set_val(2);
+        test_board.merge_left();
+        assert_eq!(4, test_board.grid[0][0].get_val().unwrap());
+        assert_eq!(None, test_board.grid[1][0].get_val());
+        assert_eq!(None, test_board.grid[2][0].get_val());
+        assert_eq!(None, test_board.grid[3][0].get_val());
     }
 }
