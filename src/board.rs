@@ -1,8 +1,5 @@
-
-
-
-
 use crate::tile::Tile;
+use rand::Rng;
 
 #[derive(Clone)]
 struct Board{
@@ -192,8 +189,6 @@ impl Board {
         }
         self.mov_down();
     }
-
-
 
 }
 #[cfg(test)]

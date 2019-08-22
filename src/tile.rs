@@ -1,8 +1,8 @@
 
 
 
-#[derive(Clone, Copy)]
-struct Position {
+#[derive(Clone, Copy, PartialEq, Eq, Hash)]
+pub struct Position {
     x: u32,
     y: u32,
 }
@@ -41,17 +41,14 @@ impl Tile {
             self.val = other.val;
             other.val = None;
         };
-        // match self.val {
-        //     None => {
-        //         self.val = other.val;
-        //         other.val = None;
-        //     },
-        //     Some(_i) => ()
-        // };
     }
 
-    pub fn get_val(&mut self) -> Option<u32> {
+    pub fn get_val(&self) -> Option<u32> {
         self.val
+    }
+
+    pub fn get_pos(&self) -> Position {
+        self.pos
     }
 }
 
