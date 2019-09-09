@@ -190,6 +190,15 @@ impl Board {
         self.mov_down();
     }
 
+    pub fn set_tile_val(&mut self, x: u32, y: u32, val: u32) {
+        let grid = &mut self.grid;
+        let mut tile = Tile::new(x,y);
+        tile.set_val(val);
+        let x_co = x as usize;
+        let y_co = y as usize;
+        grid[x_co][y_co] =  tile;
+    }
+
 }
 #[cfg(test)]
 mod board_tests {
