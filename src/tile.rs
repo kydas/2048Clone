@@ -3,18 +3,18 @@
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Position {
-    x: u32,
-    y: u32,
+    pub x: usize,
+    pub y: usize,
 }
 
 #[derive(Clone, Copy)]
 pub struct Tile {
-    pos: Position,
-    val: Option<u32>
+    pub pos: Position,
+    pub val: Option<u32>
 }
 
 impl Tile {
-    pub fn new(x: u32, y: u32) -> Self {
+    pub fn new(x: usize, y: usize) -> Self {
         let pos = Position{x: x, y:y};
         let tile = Tile{pos: pos, val: None};
         tile

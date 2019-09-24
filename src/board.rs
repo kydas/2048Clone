@@ -2,9 +2,9 @@ use crate::tile::Tile;
 
 
 #[derive(Clone)]
-struct Board{
-    grid: Vec<Vec<Tile>>,
-    score: Option<u32>,
+pub struct Board{
+    pub grid: Vec<Vec<Tile>>,
+    pub score: Option<u32>,
 }
 
 impl Board {
@@ -190,12 +190,12 @@ impl Board {
         self.mov_down();
     }
 
-    pub fn set_tile_val(&mut self, x: u32, y: u32, val: u32) {
+    pub fn set_tile_val(&mut self, x: usize, y: usize, val: u32) {
         let grid = &mut self.grid;
         let mut tile = Tile::new(x,y);
         tile.set_val(val);
-        let x_co = x as usize;
-        let y_co = y as usize;
+        let x_co = x;
+        let y_co = y;
         grid[x_co][y_co] =  tile;
     }
 

@@ -2,6 +2,7 @@
 
 pub mod tile;
 pub mod board;
+pub mod run;
 
 
 fn main() {
