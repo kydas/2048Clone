@@ -1,4 +1,5 @@
 use crate::tile::Tile;
+use std::fmt;
 
 
 #[derive(Clone)]
@@ -198,8 +199,23 @@ impl Board {
         let y_co = y;
         grid[x_co][y_co] =  tile;
     }
-
 }
+
+impl fmt::Display for Board {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let grid = &self.grid;
+        write!(f, "\n
+                   | {} | {}  | {}  | {}  |\n
+                   | {} | {}  | {}  | {}  |\n
+                   | {} | {}  | {}  | {}  |\n
+                   | {} | {}  | {}  | {}  |\n", 
+                     grid[0][0], grid[1][0], grid[2][0], grid[3][0],
+                     grid[0][1], grid[1][1], grid[2][1], grid[3][1],
+                     grid[0][2], grid[1][2], grid[2][2], grid[3][2],
+                     grid[0][3], grid[1][3], grid[2][3], grid[3][3])
+    }
+}
+
 #[cfg(test)]
 mod board_tests {
     use super::*;

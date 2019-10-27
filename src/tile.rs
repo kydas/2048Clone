@@ -1,4 +1,4 @@
-
+use std::fmt;
 
 
 #[derive(Clone, Copy, PartialEq, Eq, Hash)]
@@ -49,6 +49,15 @@ impl Tile {
 
     pub fn get_pos(&self) -> Position {
         self.pos
+    }
+}
+
+impl fmt::Display for Tile {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self.val {
+            Some(i) => write!(f, "{}", i),
+            None => write!(f, "{}", 0),
+        }
     }
 }
 

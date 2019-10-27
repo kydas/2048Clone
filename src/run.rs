@@ -27,10 +27,10 @@ pub fn init_board() -> Board {
     board
 }
 
-pub fn game_over(board: Board) -> bool {
-    let grid = board.grid;
+pub fn game_over(board: &Board) -> bool {
+    let grid = &board.grid;
     for x in 0..4 {
-        for y in 0..3 {
+        for y in 0..4 {
             let curr = grid[x][y];
             if curr.val == None {
                 return false
@@ -69,13 +69,12 @@ pub fn generate_tile(board: Board, dir: Direction) {
             Left => pos = Position{x:3, y: ran_co},
             Right => pos = Position{x:0,  y: ran_co}
         }
-        //TODO: need to check if tile is None, and if so, set it, otherwise, find new tile
         let mut curr_tile = grid[pos.x][pos.y];
         let mut count = 1;
         while curr_tile.val != None {
             if count > 3 {
-                break;   
-                //end game
+                tile.set_val(curr_tile.get_val().unwrap());
+                break;
             }
             if dir == Direction::Up || dir == Direction::Down {
                 pos.y = count + pos.y % 4;
