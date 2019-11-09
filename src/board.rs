@@ -49,7 +49,6 @@ impl Board {
 
     fn mov_right(&mut self) {
         let grid = &mut self.grid;
-        // 5 .. 1  because we don't want to go off end of array ... TODO this comment is stale
         for y in 0..4 {
             let mut x = 3;
             while x > 0 {
@@ -204,7 +203,7 @@ impl Board {
 impl fmt::Display for Board {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let grid = &self.grid;
-        write!(f, "\n
+        write!(f, "
                    | {} | {}  | {}  | {}  |\n
                    | {} | {}  | {}  | {}  |\n
                    | {} | {}  | {}  | {}  |\n

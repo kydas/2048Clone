@@ -3,8 +3,11 @@
 pub mod tile;
 pub mod board;
 pub mod run;
+extern crate ncurses;
 
 use std::io;
+use std::char;
+use ncurses::*;
 use crate::run::init_board;
 use crate::board::Board;
 use crate::tile::Tile;
@@ -13,11 +16,26 @@ use crate::run::game_over;
 
 
 fn main() {
-    let mut is_game_over = false;
+    initscr();
+    raw();
+
+    keypad(stdscr(), true);
+    noecho();
+
+    let mut is_game_over = true;
     let mut board = init_board();
+    println!("{}", board);
     while is_game_over == false {
         println!("{}", board);
-        
+        let input = getch();
+        let in_ch = char::from_u32(input as u32).expect("Invalid char");
+        match in_ch {
+            h => board.merge_left(),
+            j => board.merge_down(),
+            k => board.merge_up(),
+            l => board.merge_right(),
+            _ => println!("{} is not a valid move! Try using Vim controls", in_ch)
+        }
         is_game_over = game_over(&board);
     }
 }
