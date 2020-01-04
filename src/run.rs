@@ -57,9 +57,22 @@ pub fn game_over(board: &Board) -> bool {
     true
 }
 
-pub fn generate_tile(board: Board, dir: Direction) {
+pub fn mov(board: &mut Board, dir: Direction) {
+    match dir {
+        Up => board.merge_up(),
+        Down => board.merge_down(),
+        Left => board.merge_left(),
+        Right => board.merge_right()
+    }
+    let new_tile = generate_tile(&board, dir);
+    let x_coord = new_tile.pos.x;
+    let y_coord = new_tile.pos.y;
+    board.grid[x_coord][y_coord] = new_tile;
+}
+
+pub fn generate_tile(board: &Board, dir: Direction) -> Tile {
         let mut tile = Tile::new(0,0);
-        let mut grid = board.grid;
+        let grid = &board.grid;
         tile.set_val(two_or_four());
         let ran_co = random_coord();
         let mut pos;
@@ -85,7 +98,7 @@ pub fn generate_tile(board: Board, dir: Direction) {
             count += 1;
         }
         tile.pos = pos;
-        grid[pos.x][pos.y] = tile;
+        tile
         
 }
 

@@ -13,6 +13,12 @@ use crate::run::init_board;
 use crate::board::Board;
 use crate::tile::Tile;
 use crate::run::game_over;
+use crate::run::mov;
+
+use crate::run::Direction::Up;
+use crate::run::Direction::Down;
+use crate::run::Direction::Left;
+use crate::run::Direction::Right;
 
 use termion::event::Key;
 use termion::input::TermRead;
@@ -47,19 +53,23 @@ fn main() {
         match c.unwrap() {
             Key::Char('q') => break,
             Key::Char('h') => {
-                board.merge_left();
+                mov(&mut board, Left);
+                //board.merge_left();
                 print!("{}", board)
             },
             Key::Char('j') => {
-                board.merge_down();
+                mov(&mut board, Down);
+                //board.merge_down();
                 print!("{}", board)
             },
             Key::Char('k') => {
-                board.merge_up();
+                mov(&mut board, Up);
+                //board.merge_up();
                 print!("{}", board)
             },
             Key::Char('l') => {
-                board.merge_right();
+                mov(&mut board, Right);
+                //board.merge_right();
                 print!("{}", board)
             },
             _ => {}
