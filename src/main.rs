@@ -1,58 +1,100 @@
 //use std::env;
+extern crate termion;
 
 pub mod tile;
 pub mod board;
 pub mod run;
-extern crate ncurses;
 
 use std::io;
+
+
 use std::char;
-use ncurses::*;
 use crate::run::init_board;
 use crate::board::Board;
 use crate::tile::Tile;
 use crate::run::game_over;
 
-
+use termion::event::Key;
+use termion::input::TermRead;
+use termion::raw::IntoRawMode;
+use std::io::{Write, stdout, stdin};
+use indoc::indoc;
 
 fn main() {
-    initscr();
-    raw();
+    let stdin = stdin();
+    let mut stdout = stdout().into_raw_mode().unwrap();
 
-    keypad(stdscr(), true);
-    noecho();
-
-    let mut is_game_over = true;
+    let mut is_game_over = false;
     let mut board = init_board();
-    println!("{}", board);
-    while is_game_over == false {
-        println!("{}", board);
-        let input = getch();
-        let in_ch = char::from_u32(input as u32).expect("Invalid char");
-        match in_ch {
-            h => board.merge_left(),
-            j => board.merge_down(),
-            k => board.merge_up(),
-            l => board.merge_right(),
-            _ => println!("{} is not a valid move! Try using Vim controls", in_ch)
+
+    write!(stdout,
+           "{}{}q to exit. Vim Navigation. Here is your starting board:\n
+           {}{}",
+           termion::clear::All,
+           termion::cursor::Goto(1, 1),
+           board,
+           termion::cursor::Hide)
+            .unwrap();
+    stdout.flush().unwrap();
+
+    for c in stdin.keys() {
+        write!(stdout,
+               "{}{}",
+               termion::cursor::Goto(1, 1),
+               termion::clear::All)
+                .unwrap();
+
+        match c.unwrap() {
+            Key::Char('q') => break,
+            Key::Char('h') => {
+                board.merge_left();
+                print!("{}", board)
+            },
+            Key::Char('j') => {
+                board.merge_down();
+                print!("{}", board)
+            },
+            Key::Char('k') => {
+                board.merge_up();
+                print!("{}", board)
+            },
+            Key::Char('l') => {
+                board.merge_right();
+                print!("{}", board)
+            },
+            _ => {}
         }
-        is_game_over = game_over(&board);
+        stdout.flush().unwrap();
     }
+
+    // let mut is_game_over = false;
+    // let mut board = init_board();
+    // println!("{}", board);
+    // while is_game_over == false {
+    //     println!("{}", board);
+    //     let input = getch();
+    //     let in_ch = char::from_u32(input as u32).expect("Invalid char");
+    //     match in_ch {
+    //         h => board.merge_left(),
+    //         j => board.merge_down(),
+    //         k => board.merge_up(),
+    //         l => board.merge_right(),
+    //         q => break,
+    //         _ => println!("{} is not a valid move! Try using Vim controls", in_ch)
+    //     }
+    //     is_game_over = game_over(&board);
+    // }
 }
 
-// fn print_board (board: &Board) {
-//     let mut s = String::from("");
+// fn print_board (board: &Board) -> String {
 //     let grid = board.grid;
-//     let mut count = 0;
-//     for x in 0 .. 4 {
-//         for y in 0 .. 4 {
-//             if count % 4 == 0 {
-//                 s.push_str("\n");
-//             }
-//             let tile = grid[x][y];
-//             let val = tile.get_val();
-//             s.push_str("|" + val + "|");
-//         }
-//     }
-//     println!("{}", s);
+//     let fmt_str = format!("| {} | {}  | {}  | {}  |\n
+//                            | {} | {}  | {}  | {}  |\n
+//                            | {} | {}  | {}  | {}  |\n
+//                            | {} | {}  | {}  | {}  |", 
+//  grid[0][0], grid[1][0], grid[2][0], grid[3][0],
+//  grid[0][1], grid[1][1], grid[2][1], grid[3][1],
+//  grid[0][2], grid[1][2], grid[2][2], grid[3][2],
+//  grid[0][3], grid[1][3], grid[2][3], grid[3][3]);
+//     indoc!(fmt_str)
 // }

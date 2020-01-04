@@ -1,5 +1,6 @@
 use crate::tile::Tile;
 use std::fmt;
+use indoc::indoc;
 
 
 #[derive(Clone)]
@@ -203,11 +204,11 @@ impl Board {
 impl fmt::Display for Board {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let grid = &self.grid;
-        write!(f, "
-                   | {} | {}  | {}  | {}  |\n
-                   | {} | {}  | {}  | {}  |\n
-                   | {} | {}  | {}  | {}  |\n
-                   | {} | {}  | {}  | {}  |\n", 
+write!(f,"\
+| {} | {}  | {}  | {}  |\n\
+| {} | {}  | {}  | {}  |\n\
+| {} | {}  | {}  | {}  |\n\
+| {} | {}  | {}  | {}  |", 
                      grid[0][0], grid[1][0], grid[2][0], grid[3][0],
                      grid[0][1], grid[1][1], grid[2][1], grid[3][1],
                      grid[0][2], grid[1][2], grid[2][2], grid[3][2],
