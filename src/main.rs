@@ -13,6 +13,7 @@ use crate::run::init_board;
 use crate::board::Board;
 use crate::tile::Tile;
 use crate::run::game_over;
+use crate::run::gen_tile;
 use crate::run::mov;
 
 use crate::run::Direction::Up;
@@ -32,6 +33,13 @@ fn main() {
 
     let mut is_game_over = false;
     let mut board = init_board();
+
+    // TEST BOARD
+    // for x in 0.. 4 {
+    //     for y in 0 .. 4 {
+    //         board.grid[x][y].set_val(2);
+    //     }
+    // }
 
     write!(stdout,
            "{}{}q to exit. Vim Navigation. Here is your starting board:\n
@@ -53,23 +61,39 @@ fn main() {
         match c.unwrap() {
             Key::Char('q') => break,
             Key::Char('h') => {
-                mov(&mut board, Left);
-                //board.merge_left();
+                let pre_move = board.clone();
+                //mov(&mut board, Left);
+                board.merge_left();
+                if pre_move != board {
+                    gen_tile(&mut board);
+                }
                 print!("{}", board)
             },
             Key::Char('j') => {
-                mov(&mut board, Down);
-                //board.merge_down();
+                let pre_move = board.clone();
+                //mov(&mut board, Down);
+                board.merge_down();
+                if pre_move != board {
+                    gen_tile(&mut board);
+                }
                 print!("{}", board)
             },
             Key::Char('k') => {
-                mov(&mut board, Up);
-                //board.merge_up();
+                let pre_move = board.clone();
+                //mov(&mut board, Up);
+                board.merge_up();
+                if pre_move != board {
+                    gen_tile(&mut board);
+                }
                 print!("{}", board)
             },
             Key::Char('l') => {
-                mov(&mut board, Right);
-                //board.merge_right();
+                let pre_move = board.clone();
+                //mov(&mut board, Right);
+                board.merge_right();
+                if pre_move != board {
+                    gen_tile(&mut board);
+                }
                 print!("{}", board)
             },
             _ => {}
@@ -98,6 +122,7 @@ fn main() {
 
 // fn print_board (board: &Board) -> String {
 //     let grid = board.grid;
+//           },
 //     let fmt_str = format!("| {} | {}  | {}  | {}  |\n
 //                            | {} | {}  | {}  | {}  |\n
 //                            | {} | {}  | {}  | {}  |\n

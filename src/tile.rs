@@ -7,7 +7,7 @@ pub struct Position {
     pub y: usize,
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Eq, PartialEq)]
 pub struct Tile {
     pub pos: Position,
     pub val: Option<u32>

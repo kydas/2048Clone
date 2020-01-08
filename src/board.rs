@@ -1,9 +1,8 @@
 use crate::tile::Tile;
 use std::fmt;
-use indoc::indoc;
 
 
-#[derive(Clone)]
+#[derive(Clone, Eq, PartialEq)]
 pub struct Board{
     pub grid: Vec<Vec<Tile>>,
     pub score: Option<u32>,
@@ -73,7 +72,6 @@ impl Board {
 
     fn mov_up(&mut self) {
         let grid = &mut self.grid;
-        // 5 .. 1  because we don't want to go off end of array
         for x in 0..4 {
             let mut y = 0;
             while y < 3 {
@@ -97,7 +95,6 @@ impl Board {
 
     fn mov_down(&mut self) {
         let grid = &mut self.grid;
-        // 5 .. 1  because we don't want to go off end of array
         for x in 0..4 {
             let mut y = 3;
             while y > 0 {
@@ -205,10 +202,10 @@ impl fmt::Display for Board {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         let grid = &self.grid;
 write!(f,"\
-| {} | {}  | {}  | {}  |\n\
-| {} | {}  | {}  | {}  |\n\
-| {} | {}  | {}  | {}  |\n\
-| {} | {}  | {}  | {}  |", 
+| {:<} | {:<}  | {:<}  | {:<}  |\n\
+| {:<} | {:<}  | {:<}  | {:<}  |\n\
+| {:<} | {:<}  | {:<}  | {:<}  |\n\
+| {:<} | {:<}  | {:<}  | {:<}  |", 
                      grid[0][0], grid[1][0], grid[2][0], grid[3][0],
                      grid[0][1], grid[1][1], grid[2][1], grid[3][1],
                      grid[0][2], grid[1][2], grid[2][2], grid[3][2],
